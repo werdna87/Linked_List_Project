@@ -5,9 +5,9 @@ public class Student {
 	private String lastName;
 	private int gpa;
 	
-	public Student(String fName, String lName, int gpa){
-		firstName = fName;
+	public Student(String lName, String fName, int gpa){
 		lastName = lName;
+		firstName = fName;
 		this.gpa = gpa;
 	}
 	
