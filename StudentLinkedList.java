@@ -18,7 +18,7 @@ public class StudentLinkedList {
 		for(;;){
 			if(current.getNext()==null){
 				current.setNext(s);
-				break;
+				return;
 			}
 			else{
 
@@ -26,7 +26,7 @@ public class StudentLinkedList {
 					StudentNode temp = current.getNext();
 					current.setNext(s);
 					s.setNext(temp);
-					break;
+					return;
 				}
 				else{
 					current = current.getNext();
@@ -43,7 +43,7 @@ public class StudentLinkedList {
 		}
 	}
 	public boolean correctGPA(StudentNode a, StudentNode current){
-		if(a.getValue().getGPA()>current.getNext().getValue().getGPA()){
+		if(a.getValue().getGPA()<current.getNext().getValue().getGPA()){
 			return true;
 		}
 		else{
@@ -64,51 +64,38 @@ public class StudentLinkedList {
 				previous = previous.getNext();
 			}
 		}
+		//		return null;
 		throw new NoStudentException();
 	}
-	public void sortByAverage(){
-		StudentNode current = head.getNext();
-		StudentNode newHead = new StudentNode(new Student("","",0),current);
+	public void insertByGPA(String fName, String lName, int GPA){
+		StudentNode s = new StudentNode(new Student(fName,lName,GPA));
+		StudentNode current = head;
 		for(;;){
 			if(current.getNext()==null){
-				newHead.setNext(current);
-				break;
+				current.setNext(s);
+				return;
 			}
 			else{
 
-				if(correctGPA(current,newHead)){
-					StudentNode temp = removeStudent(head.getNext().getValue().getFirstName().toString(),head.getNext().getValue().getLastName().toString());
-							
-					newHead.setNext(current);
-					current.setNext(temp);
+				if(correctGPA(s,current)){
+					StudentNode temp = current.getNext();
+					current.setNext(s);
+					s.setNext(temp);
+					return;
 				}
 				else{
 					current = current.getNext();
 				}
 			}
 		}
-//		System.out.println("HELLO \n" + newHead.getNext());
-		head = newHead;
 	}
-	//		StudentNode current = head.getNext();
-	//		StudentNode newHead = new StudentNode(new Student("","",0));
-	//		while(current.getNext()!= null){
-	//			StudentNode temp = new StudentNode(new Student("","",0));
-	//			for(;;){
-	//				if(temp.getValue().getGPA()<current.getValue().getGPA()){
-	//					temp.setNext(current);
-	//					newHead.setNext(temp);
-	//					removeStudent(current.getValue().getFirstName(),current.getValue().getLastName());
-	//					current= current.getNext();
-	//				}
-	//			}
-	//			else{
-	//				temp = temp.getNext();
-	//				current= current.getNext();
-	//			}
-	//		}
-	//		head= newHead;
-	//	}
+	public void sortByAverage(){
+		StudentNode temp = head;
+		while(temp!=null){
+			insertByGPA(temp.getValue().getFirstName(),temp.getValue().getLastName(),temp.getValue().getGPA());
+			temp = temp.getNext();
+		}
+	}
 	public static void main(String[] args) throws NoStudentException{
 		StudentLinkedList list = new StudentLinkedList();
 		list.insertByLastName("Edgars", "Thomas", 89);
@@ -126,6 +113,17 @@ public class StudentLinkedList {
 		System.out.println("Frank Martin decided to drop, so the class now has:");
 		list.removeStudent("Martin", "Frank");
 		System.out.println(list);
+		//		StudentLinkedList list2 = new StudentLinkedList();
+		//		list2.insertByGPA("Edgars", "Thomas", 89);
+		//		list2.insertByGPA("Smith", "Jennifer", 86);
+		//		list2.insertByGPA("Umberton", "Harold", 78);
+		//		list2.insertByGPA("Martin", "Frank", 60);
+		//		list2.insertByGPA("Andrews", "Jeremy", 83);
+		//		list2.insertByGPA("Roberts", "Laura", 93);
+		//		list2.insertByGPA("Lincoln", "Adele", 85);
+		//		list2.insertByGPA("Smith", "Peter", 91);
+		//		list2.insertByGPA("Peterson", "Larry", 72);
+
 
 
 
