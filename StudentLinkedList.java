@@ -34,9 +34,19 @@ public class StudentLinkedList {
 			}
 		}
 	}
+	public void insertByLastName(Student s){
+		insertByLastName(s.getFirstName(),s.getLastName(),s.getGPA());
+
+	}
 	public boolean correctSpotLastName(StudentNode a, StudentNode current){
 		if(a.getValue().getLastName().toString().compareTo(current.getNext().getValue().getLastName().toString())<0){
 			return true;
+		}
+		else if(a.getValue().getLastName().toString().compareTo(current.getNext().getValue().getLastName().toString())==0){
+			if(a.getValue().getFirstName().toString().compareTo(current.getNext().getValue().getFirstName().toString())<0){
+			return true;
+			}
+			else return false;
 		}
 		else{
 			return false;
@@ -89,17 +99,31 @@ public class StudentLinkedList {
 			}
 		}
 	}
+	public void insertByGPA(Student s){
+		insertByGPA(s.getFirstName(),s.getLastName(),s.getGPA());
+	}
+
 	public void sortByAverage(){
-		StudentNode temp = head;
+		StudentNode temp = head.getNext();
+		StudentNode newHead = new StudentNode(new Student("","",0));
+		head = newHead;
 		while(temp!=null){
-			insertByGPA(temp.getValue().getFirstName(),temp.getValue().getLastName(),temp.getValue().getGPA());
-			temp = temp.getNext();
+			insertByGPA(temp.getValue());
+			temp = (temp.getNext());
+		}
+	}
+	public void sortByLastName(){
+		StudentNode temp = head.getNext();
+		StudentNode newHead = new StudentNode(new Student("","",0));
+		head = newHead;
+		while(temp!=null){
+			insertByLastName(temp.getValue());
+			temp = (temp.getNext());
 		}
 	}
 	public static void main(String[] args) throws NoStudentException{
 		StudentLinkedList list = new StudentLinkedList();
 		list.insertByLastName("Edgars", "Thomas", 89);
-		list.insertByLastName("Smith", "Jennifer", 86);
 		list.insertByLastName("Umberton", "Harold", 78);
 		list.insertByLastName("Martin", "Frank", 60);
 		list.insertByLastName("Andrews", "Jeremy", 83);
@@ -107,28 +131,24 @@ public class StudentLinkedList {
 		list.insertByLastName("Lincoln", "Adele", 85);
 		list.insertByLastName("Smith", "Peter", 91);
 		list.insertByLastName("Peterson", "Larry", 72);
+		list.insertByLastName("Smith", "Jennifer", 86);
+
 
 		System.out.println("The Students in order are:");
 		System.out.println(list);
 		System.out.println("Frank Martin decided to drop, so the class now has:");
 		list.removeStudent("Martin", "Frank");
 		System.out.println(list);
-		//		StudentLinkedList list2 = new StudentLinkedList();
-		//		list2.insertByGPA("Edgars", "Thomas", 89);
-		//		list2.insertByGPA("Smith", "Jennifer", 86);
-		//		list2.insertByGPA("Umberton", "Harold", 78);
-		//		list2.insertByGPA("Martin", "Frank", 60);
-		//		list2.insertByGPA("Andrews", "Jeremy", 83);
-		//		list2.insertByGPA("Roberts", "Laura", 93);
-		//		list2.insertByGPA("Lincoln", "Adele", 85);
-		//		list2.insertByGPA("Smith", "Peter", 91);
-		//		list2.insertByGPA("Peterson", "Larry", 72);
-
-
-
-
+		System.out.println("Sorted by GPA, the class is:");
 		list.sortByAverage();
 		System.out.println(list);
+		System.out.println("Alice Martin joins the class with an average of 96 so the class now has:");
+		list.insertByGPA("Martin","Alice",96);
+		System.out.println(list);
+		System.out.println("Sorted by last name, the class is:");
+		list.sortByLastName();
+		System.out.println(list);
+
 	}
 
 }
